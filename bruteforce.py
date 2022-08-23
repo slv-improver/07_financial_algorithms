@@ -22,6 +22,12 @@ SHARES = [
 ]
 CUSTOMER_BUDGET = 500
 
+combinations_list = []
+
+
+def benefits_calc(price, percent):
+    return price*percent/100
+
 
 def bruteforce(data, budget):
     """ Try all investment combinations"""
