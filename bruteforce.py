@@ -29,10 +29,31 @@ def benefits_calc(price, percent):
     return price*percent/100
 
 
-def bruteforce(data, budget):
-    """ Try all investment combinations"""
-    pass
+def binary_tree_investment(index: int, remaining_budget: int, combination: list):
+    """ Recursive function.
+    Create all combinations and insert them in combinations_list
+        Parameters:
+            :param index: iterator
+            :param remaining_budget: budget to invest in the next share
+            :param combination: the list created by the binary tree
+    """
+    if index < len(SHARES):
+        share = SHARES[index]
+        binary_tree_investment(index + 1, remaining_budget, combination)
+        if remaining_budget >= share['price']:
+            combination.append(share)
+            remaining_budget -= share['price']
+            binary_tree_investment(index+1, remaining_budget, combination)
+    else:
+        combinations_list.append(combination)
+
+
+def bruteforce():
+    """ Try all investment combinations.
+    And find the one with most benefits.
+    """
+    binary_tree_investment(0, CUSTOMER_BUDGET, [])
 
 
 if __name__ == '__main__':
-    bruteforce(SHARES, CUSTOMER_BUDGET)
+    bruteforce()
