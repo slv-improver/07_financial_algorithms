@@ -54,6 +54,18 @@ def bruteforce():
     And find the one with most benefits.
     """
     binary_tree_investment(0, CUSTOMER_BUDGET, [])
+    print(len(combinations_list))
+    best_combination = {'index': 0, 'total': 0}
+    for i, combination in enumerate(combinations_list):
+        invest_combination = {'index': i, 'total': 0}
+        for share in combination:
+            invest_combination['total'] += benefits_calc(
+                share['price'],
+                share['benefits'],
+            )
+        if invest_combination['total'] > best_combination['total']:
+            best_combination = invest_combination
+    print(best_combination['total'], combinations_list[best_combination['index']])
 
 
 if __name__ == '__main__':
