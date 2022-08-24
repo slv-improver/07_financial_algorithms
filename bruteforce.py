@@ -39,11 +39,12 @@ def binary_tree_investment(index: int, remaining_budget: int, combination: list)
     """
     if index < len(SHARES):
         share = SHARES[index]
-        binary_tree_investment(index + 1, remaining_budget, combination)
+        combination_a = combination_b = combination[:]
+        binary_tree_investment(index + 1, remaining_budget, combination_a)
         if remaining_budget >= share['price']:
-            combination.append(share)
+            combination_b.append(share)
             remaining_budget -= share['price']
-            binary_tree_investment(index+1, remaining_budget, combination)
+            binary_tree_investment(index+1, remaining_budget, combination_b)
     else:
         combinations_list.append(combination)
 
