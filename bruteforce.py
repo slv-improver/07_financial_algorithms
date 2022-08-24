@@ -1,3 +1,8 @@
+import time
+
+
+start = time.process_time()
+
 SHARES = [
     {'name': 'Action-1', 'price': 20, 'benefits': 5},
     {'name': 'Action-2', 'price': 30, 'benefits': 10},
@@ -54,6 +59,7 @@ def bruteforce():
     And find the one with most benefits.
     """
     binary_tree_investment(0, CUSTOMER_BUDGET, [])
+    print(time.process_time() - start, 's')
     print(len(combinations_list))
     best_combination = {'index': 0, 'total': 0}
     for i, combination in enumerate(combinations_list):
@@ -65,6 +71,7 @@ def bruteforce():
             )
         if invest_combination['total'] > best_combination['total']:
             best_combination = invest_combination
+    print(time.process_time() - start, 's')
     print(best_combination['total'], combinations_list[best_combination['index']])
 
 
