@@ -61,18 +61,24 @@ def bruteforce():
     binary_tree_investment(0, CUSTOMER_BUDGET, [])
     print(time.process_time() - start, 's')
     print(len(combinations_list))
-    best_combination = {'index': 0, 'total': 0}
+    best_combination = {'index': 0, 'winnings': 0}
     for i, combination in enumerate(combinations_list):
-        invest_combination = {'index': i, 'total': 0}
+        invest_combination = {'index': i, 'cost': 0, 'winnings': 0}
         for share in combination:
-            invest_combination['total'] += profits_calc(
+            invest_combination['winnings'] += profits_calc(
                 share['price'],
                 share['profits'],
             )
-        if invest_combination['total'] > best_combination['total']:
+            invest_combination['cost'] += share['price']
+        if invest_combination['winnings'] > best_combination['winnings']:
             best_combination = invest_combination
     print(time.process_time() - start, 's')
-    print(best_combination['total'], combinations_list[best_combination['index']])
+    print(
+        combinations_list[best_combination['index']],
+        best_combination['cost'],
+        round(best_combination['winnings'], 2),
+        sep='\n- '
+    )
 
 
 if __name__ == '__main__':
