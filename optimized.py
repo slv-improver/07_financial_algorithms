@@ -11,11 +11,12 @@ def extract_shares():
         csv_reader = csv.DictReader(csv_file)
         line_count = 0
         for row in csv_reader:
-            print(f'\t{row["name"]}, {row["price"]}, {row["profit"]}')
+            name, price, profit_percent = row["name"], row["price"], row["profit"]
+            print(f'\t{name}, {price}, {profit_percent}')
             shares.append({
-                'name': row['name'],
-                'price': int(row['price']),
-                'profit': int(row['profit'])
+                'name': name,
+                'price': int(price),
+                'profit_amount': price * int(profit_percent) / 100
             })
             line_count += 1
         print(f'\nProcessed {line_count} lines in:\n'
