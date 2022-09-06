@@ -8,6 +8,10 @@ BUDGET = 500
 
 
 def extract_shares():
+    """
+    Read and extract shares from CSV file
+    :return: list of dictionaries (name', 'price', 'profit')
+    """
     shares = []
     with open('shares.csv', mode='r') as csv_file:
         csv_reader = csv.DictReader(csv_file)
@@ -22,11 +26,17 @@ def extract_shares():
                 })
             line_count += 1
         print(f'\nProcessed {line_count} lines in:\n'
-              f'{time.process_time() - start} s')
+              f'{round(time.process_time() - start, 4)} s', end='\n\n')
     return shares
 
 
 def dynamic_algo(budget, shares_list):
+    """
+    Create a matrix that store best share investment
+    for each unit from 0 to budget
+    :param budget: max investment amount
+    :param shares_list: list of shares
+    """
     # Convert budget to cents to get integer price
     budget *= 100
     matrice = [[0 for x in range(budget + 1)] for x in range(len(shares_list) + 1)]
@@ -54,15 +64,17 @@ def dynamic_algo(budget, shares_list):
 
         n -= 1
 
-    print((budget - b) / 100, shares_selection, matrice[-1][-1], sep='\n- ')
+    print(shares_selection, (budget - b) / 100, matrice[-1][-1], sep='\n- ')
 
 
 def optimized_investment():
+    """
+    Main function
+    """
     shares = extract_shares()
-    shares.sort(key=lambda x: x['price'], reverse=True)
     dynamic_algo(BUDGET, shares)
 
 
 if __name__ == '__main__':
     optimized_investment()
-    print(time.process_time() - start, 's')
+    print('in:', round(time.process_time() - start, 4), 's')
