@@ -5,15 +5,18 @@ import csv
 start = time.process_time()
 
 BUDGET = 500
+FILE = 'shares.csv'
+# FILE = 'dataset1_Python+P7.csv'
+# FILE = 'dataset2_Python+P7.csv'
 
 
-def extract_shares():
+def extract_shares(file):
     """
     Read and extract shares from CSV file
     :return: list of dictionaries (name', 'price', 'profit')
     """
     shares = []
-    with open('shares.csv', mode='r') as csv_file:
+    with open('file', mode='r') as csv_file:
         csv_reader = csv.DictReader(csv_file)
         line_count = 0
         for row in csv_reader:
@@ -71,7 +74,7 @@ def optimized_investment():
     """
     Main function
     """
-    shares = extract_shares()
+    shares = extract_shares(FILE)
     dynamic_algo(BUDGET, shares)
 
 
