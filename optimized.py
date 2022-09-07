@@ -33,7 +33,7 @@ def extract_shares(file):
     return shares
 
 
-def dynamic_algo(budget, shares_list):
+def dynamic_knapsack(budget, shares_list):
     """
     Create a matrix that store best share investment
     for each unit from 0 to budget
@@ -42,10 +42,12 @@ def dynamic_algo(budget, shares_list):
     """
     # Convert budget to cents to get integer price
     budget *= 100
-    matrix = [[0 for x in range(budget + 1)] for x in range(len(shares_list) + 1)]
+    row_length = budget + 1
+    column_length = len(shares_list) + 1
+    matrix = [[0 for x in range(row_length)] for x in range(column_length)]
 
-    for i in range(1, len(shares_list) + 1):
-        for b in range(1, budget + 1):
+    for i in range(1, column_length):
+        for b in range(1, row_length):
             if shares_list[i-1]['price'] <= b:
                 matrix[i][b] = max(
                     shares_list[i-1]['profit_amount']
@@ -75,7 +77,7 @@ def optimized_investment():
     Main function
     """
     shares = extract_shares(FILE)
-    dynamic_algo(BUDGET, shares)
+    dynamic_knapsack(BUDGET, shares)
 
 
 if __name__ == '__main__':
