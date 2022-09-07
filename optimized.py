@@ -16,7 +16,7 @@ def extract_shares(file):
     :return: list of dictionaries (name', 'price', 'profit')
     """
     shares = []
-    with open('file', mode='r') as csv_file:
+    with open(file, mode='r') as csv_file:
         csv_reader = csv.DictReader(csv_file)
         line_count = 0
         for row in csv_reader:
@@ -42,34 +42,43 @@ def dynamic_knapsack(budget, shares_list):
     """
     # Convert budget to cents to get integer price
     budget *= 100
-    row_length = budget + 1
-    column_length = len(shares_list) + 1
-    matrix = [[0 for x in range(row_length)] for x in range(column_length)]
+    matrix_x = budget + 1
+    matrix_y = len(shares_list) + 1
+    matrix = [[0 for x in range(matrix_x)] for x in range(matrix_y)]
 
-    for i in range(1, column_length):
-        for b in range(1, row_length):
-            if shares_list[i-1]['price'] <= b:
+    # Loop on all shares in list
+    for i in range(1, matrix_y):
+        #  Loop on all cents in the budget
+        for b in range(1, matrix_x):
+            previous_x = matrix[i-1]
+            share = shares_list[i-1]
+            # Verify if share price is lower than the tested budget
+            if share['price'] <= b:
+                optimized_y = b-share['price']
                 matrix[i][b] = max(
-                    shares_list[i-1]['profit_amount']
-                    + matrix[i-1][b-shares_list[i-1]['price']],
-                    matrix[i-1][b],
-                )
+                    share['profit_amount'] + previous_x[optimized_y],
+                    previous_x[b],
+                    )
             else:
-                matrix[i][b] = matrix[i - 1][b]
+                # Store profit_amount of the previous line
+                matrix[i][b] = previous_x[b]
 
+    # print(sorted(matrix, key=lambda x: x[-1], reverse=True)[0][-1])
+
+    # Create shares_selection
+    # by finding which shares make up the optimized solution
     b = budget
     n = len(shares_list)
     shares_selection = []
 
     while b >= 0 and n >= 0:
-        share = shares_list[n - 1]
-        if matrix[n][b] == matrix[n - 1][b - share['price']] + share['profit_amount']:
+        share = shares_list[n-1]
+        if matrix[n][b] == matrix[n-1][b - share['price']] + share['profit_amount']:
             shares_selection.append(share)
             b -= share['price']
-
         n -= 1
 
-    print(shares_selection, (budget - b) / 100, matrix[-1][-1], sep='\n- ')
+    print(shares_selection, (budget-b) / 100, matrix[-1][-1], sep='\n- ')
 
 
 def optimized_investment():
