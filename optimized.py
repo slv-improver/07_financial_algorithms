@@ -63,22 +63,29 @@ def dynamic_knapsack(budget, shares_list):
                 # Store profit_amount of the previous line
                 matrix[i][b] = previous_x[b]
 
-    # print(sorted(matrix, key=lambda x: x[-1], reverse=True)[0][-1])
+    find_composition(budget, matrix, shares_list)
 
-    # Create shares_selection
-    # by finding which shares make up the optimized solution
+
+def find_composition(budget, solutions: list, shares):
+    """
+    Create shares_selection
+    by finding which shares make up the optimized solution
+    :param budget: max investment amount
+    :param solutions:
+    :param shares: list of shares
+    """
     b = budget
-    n = len(shares_list)
+    n = len(shares)
     shares_selection = []
-
     while b >= 0 and n >= 0:
-        share = shares_list[n-1]
-        if matrix[n][b] == matrix[n-1][b - share['price']] + share['profit_amount']:
+        share = shares[n-1]
+        optimized_y = b - share['price']
+        previous_x = solutions[n-1]
+        if solutions[n][b] == previous_x[optimized_y] + share['profit_amount']:
             shares_selection.append(share)
             b -= share['price']
         n -= 1
-
-    print(shares_selection, (budget-b) / 100, matrix[-1][-1], sep='\n- ')
+    print(shares_selection, (budget-b) / 100, solutions[-1][-1], sep='\n- ')
 
 
 def optimized_investment():
