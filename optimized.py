@@ -41,7 +41,25 @@ def optimized_investment():
     Main function
     """
     shares = extract_shares(FILE)
-    greedy_knapsack(shares, BUDGET)
+
+    print('\nSorted by: Profit Percent')
+    greedy_knapsack(
+        sorted(
+            shares,
+            key=lambda x: x['profit_percent'],
+            reverse=True
+        ),
+        BUDGET,
+    )
+    print('\nSorted by: Profit Percent * Profit Amount')
+    greedy_knapsack(
+        sorted(
+            shares,
+            key=lambda x: x['profit_percent']*x['profit_amount'],
+            reverse=True
+        ),
+        BUDGET,
+    )
 
 
 def greedy_knapsack(shares_list, budget):
