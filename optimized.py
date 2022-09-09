@@ -54,10 +54,11 @@ def dynamic_knapsack(budget, shares_list):
             share = shares_list[i-1]
             # Verify if share price is lower than the tested budget
             if share['price'] <= b:
-                optimized_y = b-share['price']
+                without_share = previous_x[b]
+                with_share = share['profit_amount'] + previous_x[b-share['price']]
                 matrix[i][b] = max(
-                    share['profit_amount'] + previous_x[optimized_y],
-                    previous_x[b],
+                    with_share,
+                    without_share,
                     )
             else:
                 # Store profit_amount of the previous line
