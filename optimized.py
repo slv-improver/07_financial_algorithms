@@ -20,15 +20,18 @@ def extract_shares(file):
         csv_reader = csv.DictReader(csv_file)
         line_count = 0
         for row in csv_reader:
-            name, price, profit_percent = row["name"], float(row["price"]), row["profit"]
-            if price > 0:
+            name = row["name"]
+            price = float(row["price"])
+            profit_percent = float(row["profit"])
+            if price > 0 and profit_percent > 0:
                 shares.append({
                     'name': name,
-                    'price': int(price * 100),
-                    'profit_amount': price * float(profit_percent) / 100
+                    'price': price,
+                    'profit_percent': profit_percent,
+                    'profit_amount': price * profit_percent / 100
                 })
             line_count += 1
-        print(f'\nProcessed {line_count} lines in:\n'
+        print(f'\nProcessed {line_count} lines and extract {len(shares)} in:\n'
               f'{round(time.process_time() - start, 4)} s', end='\n\n')
     return shares
 
