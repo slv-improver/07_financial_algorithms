@@ -5,6 +5,7 @@ import csv
 start = time.process_time()
 
 BUDGET = 500
+DECIMAL = 100
 FILE = 'shares.csv'
 # FILE = 'dataset1_Python+P7.csv'
 # FILE = 'dataset2_Python+P7.csv'
@@ -26,7 +27,7 @@ def extract_shares(file):
             if price > 0 and profit_percent > 0:
                 shares.append({
                     'name': name,
-                    'price': float(price),
+                    'price': int(price*DECIMAL),
                     'profit_percent': profit_percent,
                     'profit_amount': price * profit_percent / 100
                 })
@@ -44,7 +45,7 @@ def dynamic_knapsack(budget, shares_list):
     :param shares_list: list of shares
     """
     # Convert budget to cents to get integer price
-    budget *= 100
+    budget *= DECIMAL
     matrix_x = budget + 1
     matrix_y = len(shares_list) + 1
     matrix = [[0 for x in range(matrix_x)] for x in range(matrix_y)]
@@ -89,7 +90,9 @@ def find_composition(budget, solutions: list, shares):
             shares_selection.append(share)
             b -= share['price']
         n -= 1
-    print(shares_selection, (budget-b) / 100, solutions[-1][-1], sep='\n- ')
+    for share in shares_selection:
+        print(share['name'])
+    print(shares_selection, (budget-b) / DECIMAL, solutions[-1][-1], sep='\n- ')
 
 
 def optimized_investment():
