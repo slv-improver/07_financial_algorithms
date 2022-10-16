@@ -72,8 +72,14 @@ def bruteforce():
             invest_combination['cost'] += share['price']
         if invest_combination['winnings'] > best_combination['winnings']:
             best_combination = invest_combination
+    for share in combinations_list[best_combination['index']]:
+        print(
+            f"{share['name']:<10}",
+            f"{share['price']:<5}",
+            f"{share['profits']:<5}",
+        )
     print(
-        combinations_list[best_combination['index']],
+        'Result:',
         best_combination['cost'],
         round(best_combination['winnings'], 2),
         sep='\n- '
